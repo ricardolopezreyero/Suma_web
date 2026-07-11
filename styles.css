@@ -63,8 +63,8 @@ img { display: block; max-width: 100%; }
 .menu-button { display: none; width: 42px; height: 42px; border: 0; background: transparent; }
 .menu-button span { display: block; width: 24px; height: 1px; margin: 6px auto; background: var(--ink); }
 
-.hero-simple { min-height: 690px; position: relative; display: grid; overflow: hidden; color: #fff; background: var(--green-dark); }
-.hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; animation: heroMove 16s ease-in-out infinite alternate; }
+.hero-simple { min-height: 690px; position: relative; display: grid; overflow: hidden; color: #fff; background-color: var(--green-dark); background-image: url('./assets/hero-coahuila-real.webp'); background-position: center 55%; background-size: cover; }
+.hero-photo { position: absolute; inset: 0; z-index: 0; display: block; visibility: visible; opacity: 1; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; animation: heroMove 16s ease-in-out infinite alternate; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,27,20,.94), rgba(10,36,26,.65) 48%, rgba(10,36,26,.12) 85%), linear-gradient(0deg, rgba(6,23,17,.45), transparent 52%); }
 .hero-simple-content { position: relative; z-index: 1; align-self: center; padding: 82px 0 46px; }
 .eyebrow, .section-label { margin: 0; text-transform: uppercase; color: var(--green); font: 500 9px var(--mono); letter-spacing: .13em; }
@@ -185,6 +185,10 @@ img { display: block; max-width: 100%; }
   .inner-hero { padding: 55px 0; }.inner-hero h1 { font-size: 46px; }.plain-grid { grid-template-columns: 1fr; }.checklist label { grid-template-columns: 25px 1fr; padding: 12px 0; }.checklist small { grid-column: 2; }.compare-wrap { overflow-x: auto; }.compare-table { min-width: 620px; }.faq-search { grid-template-columns: 1fr; }.inline-cta { padding: 27px; }
   .seo-article > section { padding-bottom: 48px; margin-bottom: 48px; }.related-links { grid-template-columns: 1fr; }.article-steps { grid-template-columns: 1fr 1fr; }.article-steps li:nth-child(2) { border-right: 0; }.article-steps li:nth-child(n+3) { border-top: 1px solid var(--line); }.fact-highlight { grid-template-columns: 1fr; }.dual-cta { grid-template-columns: 1fr; }.metric-row { grid-template-columns: 1fr 1fr; }.metric-row article:nth-child(2) { border-right: 0; }.metric-row article:nth-child(n+3) { border-top: 1px solid var(--line); }
 }
+
+/* RLR-019: acción de IA dentro del asistente de inversión. */
+.chat-panel > .chat-ai-link { display: block; width: 100%; padding: 11px 0; border: 0; border-top: 1px solid var(--line); color: var(--green); background: transparent; text-align: left; font-size: 12px; font-weight: 800; }
+.chat-panel > .chat-ai-link:hover { color: var(--gold); }
 
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto!important; animation-duration: .01ms!important; transition-duration: .01ms!important; } }
 

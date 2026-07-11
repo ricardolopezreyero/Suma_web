@@ -101,6 +101,28 @@
   const chatLauncher = document.querySelector('#chat-launcher');
   const chatPanel = document.querySelector('#chat-panel');
   const chatClose = document.querySelector('#chat-close');
+  const loadAiWidget = () => {
+    if (document.querySelector('script[data-suma-ai-widget]')) {
+      showToast('El Asistente IA ya está disponible.');
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://widgets.leadconnectorhq.com/loader.js';
+    script.dataset.resourcesUrl = 'https://widgets.leadconnectorhq.com/chat-widget/loader.js';
+    script.dataset.widgetId = '6a526556c9f31412b262ace6';
+    script.dataset.sumaAiWidget = 'true';
+    script.async = true;
+    document.body.append(script);
+    showToast('Cargando el Asistente IA…');
+  };
+  if (chatPanel && !chatPanel.querySelector('.chat-ai-link')) {
+    const aiLink = document.createElement('button');
+    aiLink.type = 'button';
+    aiLink.className = 'chat-ai-link';
+    aiLink.textContent = 'Asistente IA ↗';
+    aiLink.addEventListener('click', loadAiWidget);
+    chatPanel.insertBefore(aiLink, chatPanel.querySelector('#suma-ai-widget-mount'));
+  }
   const setChat = (open) => {
     if (!chatPanel || !chatLauncher) return;
     chatPanel.hidden = !open;
