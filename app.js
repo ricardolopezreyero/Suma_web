@@ -8,6 +8,15 @@
   const toast = document.querySelector('#toast');
   let toastTimer;
 
+  if (nav && !nav.querySelector('[data-sec-link]')) {
+    const secLink = document.createElement('a');
+    secLink.href = './sec.html';
+    secLink.dataset.secLink = 'true';
+    secLink.textContent = 'SEC';
+    secLink.setAttribute('aria-label', 'Panel interno de la Secretaría de Economía');
+    nav.append(secLink);
+  }
+
   // Las páginas editoriales antiguas no incluyen el selector en HTML; lo
   // normalizamos aquí para que el encabezado se comporte igual en todo el sitio.
   if (!languageMenu) {
