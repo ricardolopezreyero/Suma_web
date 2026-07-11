@@ -1,11 +1,53 @@
 (() => {
+  // RLR-017: menú y selector de idioma consistentes en cada página.
   const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('#menu-button');
   const nav = document.querySelector('#main-nav');
-  const languageButton = document.querySelector('#language-button');
-  const languageMenu = document.querySelector('#language-menu');
+  let languageButton = document.querySelector('#language-button');
+  let languageMenu = document.querySelector('#language-menu');
   const toast = document.querySelector('#toast');
   let toastTimer;
+
+  // Las páginas editoriales antiguas no incluyen el selector en HTML; lo
+  // normalizamos aquí para que el encabezado se comporte igual en todo el sitio.
+  if (!languageMenu) {
+    const actions = document.querySelector('.nav-actions');
+    if (actions) {
+      const wrap = document.createElement('div');
+      wrap.className = 'language-wrap';
+      wrap.innerHTML = '<button class="language-button" id="language-button" type="button" aria-expanded="false" aria-controls="language-menu">ES <span>⌄</span></button><div class="language-menu" id="language-menu" hidden><button class="active" type="button">Español <small>Disponible</small></button><button type="button" data-coming-soon="English">English <small>Próximamente</small></button><button type="button" data-coming-soon="Deutsch">Deutsch <small>Próximamente</small></button><button type="button" data-coming-soon="Japonés">Japonés <small>Próximamente</small></button><button type="button" data-coming-soon="Mandarín">Mandarín <small>Próximamente</small></button></div>';
+      actions.prepend(wrap);
+      languageButton = wrap.querySelector('#language-button');
+      languageMenu = wrap.querySelector('#language-menu');
+    }
+  }
+  if (languageMenu) {
+    [['Deutsch', 'Deutsch'], ['Japonés', 'Japonés'], ['Mandarín', 'Mandarín']].forEach(([label, value]) => {
+      if (languageMenu.querySelector(`[data-coming-soon="${value}"]`)) return;
+      const option = document.createElement('button');
+      option.type = 'button'; option.dataset.comingSoon = value;
+      option.innerHTML = `${label} <small>Próximamente</small>`;
+      languageMenu.append(option);
+    });
+  }
+
+  // RLR-018: aviso editorial de novedades, visible sin habilitar aún el registro.
+  const footer = document.querySelector('.site-footer');
+  if (footer && !document.querySelector('.newsletter')) {
+    const newsletter = document.createElement('section');
+    newsletter.className = 'newsletter';
+    newsletter.setAttribute('aria-labelledby', 'newsletter-title');
+    newsletter.innerHTML = '<div class="shell newsletter-card"><div class="newsletter-copy"><p class="section-label">Próximamente</p><h2 id="newsletter-title">Las noticias económicas que sí importan.</h2><p>Estamos preparando un correo quincenal con inversiones, oportunidades, infraestructura y novedades de Coahuila.</p></div><form class="newsletter-form" aria-label="Suscripción informativa"><input type="text" placeholder="Nombre completo" disabled aria-label="Nombre completo"><input type="email" placeholder="correo@empresa.com" disabled aria-label="Correo electrónico"><button type="button" disabled>Suscribirme próximamente</button><small>Registro no disponible todavía.</small></form></div>';
+    footer.before(newsletter);
+  }
+  document.querySelectorAll('.footer-bottom').forEach((bottom) => {
+    if (!bottom.querySelector('.footer-signature')) {
+      const signature = document.createElement('span');
+      signature.className = 'footer-signature';
+      signature.textContent = 'Página hecha en Coahuila, para el mundo.';
+      bottom.append(signature);
+    }
+  });
 
   const showToast = (message) => {
     if (!toast) return;
@@ -24,27 +66,20 @@
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
 
-  let lockedScrollY = 0;
   const setMenu = (open) => {
     if (!nav || !menuButton) return;
     nav.classList.toggle('is-open', open);
     document.body.classList.toggle('menu-open', open);
-    if (open) {
-      lockedScrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${lockedScrollY}px`;
-      document.body.style.width = '100%';
-    } else if (document.body.style.position === 'fixed') {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      window.scrollTo(0, lockedScrollY);
-    }
     menuButton.setAttribute('aria-expanded', String(open));
     menuButton.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
   };
   menuButton?.addEventListener('click', () => setMenu(!nav?.classList.contains('is-open')));
   nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('click', (event) => {
+    if (!nav?.classList.contains('is-open')) return;
+    if (!(event.target instanceof Element) || (!event.target.closest('#main-nav') && !event.target.closest('#menu-button'))) setMenu(false);
+  });
+  window.addEventListener('resize', () => { if (window.innerWidth > 960) setMenu(false); }, { passive: true });
 
   languageButton?.addEventListener('click', () => {
     const open = Boolean(languageMenu?.hidden);
