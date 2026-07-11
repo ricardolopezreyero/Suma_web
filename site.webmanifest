@@ -1,0 +1,13 @@
+{
+  "name": "Invierte en Coahuila",
+  "short_name": "Coahuila",
+  "description": "Información para empresas que evalúan instalarse o expandirse en Coahuila, México.",
+  "lang": "es-MX",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f2ea",
+  "theme_color": "#0b3325",
+  "icons": [
+    { "src": "./assets/favicon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

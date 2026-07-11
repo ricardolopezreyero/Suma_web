@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ricardolopezreyero.github.io/Suma_web/sitemap.xml
