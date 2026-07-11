@@ -146,6 +146,15 @@ El sitio es estático y está preparado para GitHub Pages.
 - SEO técnico: canonicales, Open Graph, JSON-LD, páginas por intención, `sitemap.xml`, `robots.txt`, manifest y página `404` navegable.
 - Firma interna del proyecto: `RLR`.
 
+## Documentación operativa
+
+Los documentos de trabajo están agrupados en [`docs/`](./docs/):
+
+- [Base de conocimiento del Asistente IA](./docs/base-conocimiento-ia-coahuila.txt)
+- [Prompt MVP del Asistente IA](./docs/prompt-mvp-asistente-inversion-coahuila.txt)
+
+La raíz del repositorio queda reservada para los archivos que publica GitHub Pages: páginas HTML, estilos, scripts, SEO, identidad visual y activos del sitio.
+
 ---
 
 **Coahuila, Tierra de Gigantes.**
