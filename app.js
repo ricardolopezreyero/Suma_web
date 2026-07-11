@@ -15,25 +15,36 @@
     toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
   };
 
-  let headerOffset = header?.offsetTop || 0;
+  let headerOffset = header ? header.offsetTop : 0;
   const updateHeader = () => {
     if (!header) return;
+    headerOffset = header.offsetTop;
     header.classList.toggle('is-fixed', window.scrollY > headerOffset + 45);
   };
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
 
-  menuButton?.addEventListener('click', () => {
-    const open = nav?.classList.toggle('is-open');
-    document.body.classList.toggle('menu-open', Boolean(open));
-    menuButton.setAttribute('aria-expanded', String(Boolean(open)));
+  let lockedScrollY = 0;
+  const setMenu = (open) => {
+    if (!nav || !menuButton) return;
+    nav.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+    if (open) {
+      lockedScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.style.width = '100%';
+    } else if (document.body.style.position === 'fixed') {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, lockedScrollY);
+    }
+    menuButton.setAttribute('aria-expanded', String(open));
     menuButton.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-  });
-  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-    nav.classList.remove('is-open');
-    document.body.classList.remove('menu-open');
-    menuButton?.setAttribute('aria-expanded', 'false');
-  }));
+  };
+  menuButton?.addEventListener('click', () => setMenu(!nav?.classList.contains('is-open')));
+  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
   languageButton?.addEventListener('click', () => {
     const open = Boolean(languageMenu?.hidden);
@@ -46,7 +57,7 @@
     showToast(`${button.dataset.comingSoon} estará disponible próximamente.`);
   }));
   document.addEventListener('click', (event) => {
-    if (!event.target.closest('.language-wrap') && languageMenu) {
+    if (languageMenu && (!(event.target instanceof Element) || !event.target.closest('.language-wrap'))) {
       languageMenu.hidden = true;
       languageButton?.setAttribute('aria-expanded', 'false');
     }
@@ -62,7 +73,7 @@
   };
   chatLauncher?.addEventListener('click', () => setChat(Boolean(chatPanel?.hidden)));
   chatClose?.addEventListener('click', () => setChat(false));
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setChat(false); });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { setChat(false); setMenu(false); } });
 
   const checklist = [...document.querySelectorAll('#investment-checklist input[type="checkbox"]')];
   const updateChecklist = () => {
@@ -82,7 +93,10 @@
   const faqGroups = [...document.querySelectorAll('.faq-group')];
   const faqItems = [...document.querySelectorAll('.faq-item')];
   let activeCategory = 'all';
-  const normalize = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const normalize = (value) => {
+    const text = String(value || '');
+    return (typeof text.normalize === 'function' ? text.normalize('NFD') : text).replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  };
   const filterFaq = () => {
     if (!faqItems.length) return;
     const query = normalize(faqSearch?.value.trim() || '');
