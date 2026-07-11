@@ -1,6 +1,5 @@
 (() => {
   // RLR-017: menú y selector de idioma consistentes en cada página.
-  const header = document.querySelector('.site-header');
   const menuButton = document.querySelector('#menu-button');
   const nav = document.querySelector('#main-nav');
   let languageButton = document.querySelector('#language-button');
@@ -65,15 +64,6 @@
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
   };
-
-  let headerOffset = header ? header.offsetTop : 0;
-  const updateHeader = () => {
-    if (!header) return;
-    headerOffset = header.offsetTop;
-    header.classList.toggle('is-fixed', window.scrollY > headerOffset + 45);
-  };
-  updateHeader();
-  window.addEventListener('scroll', updateHeader, { passive: true });
 
   const setMenu = (open) => {
     if (!nav || !menuButton) return;
