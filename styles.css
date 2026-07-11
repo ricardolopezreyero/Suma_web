@@ -211,5 +211,5 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 660px) {
   .main-nav a { font-size: 14px; }.hero-simple-content > p:not(.eyebrow) { font-size: 16px; }.hero-proof span { font-size: 13px; }.hero-proof strong { font-size: 21px; }.value-grid h3 { font-size: 21px; }.value-grid p { font-size: 14px; }.region-list h3 { font-size: 22px; }.region-list p { font-size: 13px; }.region-list small { font-size: 11px; }.process-grid h3 { font-size: 18px; }.process-grid p { font-size: 13px; }.decision-card h3 { font-size: 27px; }.decision-card p { font-size: 14px; }.inner-hero > .shell > p:not(.breadcrumbs) { font-size: 16px; }.seo-article > section > p:not(.section-label):not(.source-note) { font-size: 15px; }.faq-item summary { font-size: 14px; }.faq-answer { font-size: 13px; }
-  .hero-photo { object-position: 30% 68%; }.hero-simple { min-height: 670px; }
+  .hero-photo { object-position: 24% 68%; }.hero-simple { min-height: 670px; }
 }
